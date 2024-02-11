@@ -1,0 +1,39 @@
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: sonarr-deployment
+   labels:
+     app: sonarr
+ spec:
+   replicas: 1
+   selector:
+      matchLabels:
+        app: sonarr
+   template:
+     metadata:
+       labels:
+         app: sonarr
+     spec:
+      containers:
+         - name: sonarr
+           image: linuxserver/sonarr
+           ports:
+             - containerPort: 8989
+           volumeMounts:
+            - name: sonarr-config
+              mountPath: /config
+            - name: sonarr-downloads
+              mountPath: /download
+            - name: sonarr-tv
+              mountPath: /tv
+      volumes:
+        - name: sonarr-config
+          hostPath:
+            path: /share/SheridanFlix/k8Config/Sonarr
+        - name: sonarr-downloads
+          hostPath:
+            path: /share/SheridanFlix/Downloads
+        - name: sonarr-tv
+          hostPath:
+            path: /share/SheridanFlix/TV/Adults
+
