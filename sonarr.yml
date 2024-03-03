@@ -20,20 +20,19 @@
            ports:
              - containerPort: 8989
            volumeMounts:
-            - name: sonarr-config
-              mountPath: /config
-            - name: sonarr-downloads
-              mountPath: /download
-            - name: sonarr-tv
-              mountPath: /tv
+            - name: "sheridanflix-storage"
+              mountPath: "/config"
+              subPath: k8config/Sonarr
+            - name: "sheridanflix-storage"
+              mountPath: "/download"
+              subPath: Downloads
+            - name: "sheridanflix-storage"
+              mountPath: "/tv"
+              subPath: TV
+            - name: "sheridanflix-storage"
+              mountPath: /sheridanflix            
       volumes:
-        - name: sonarr-config
-          hostPath:
-            path: /share/SheridanFlix/k8Config/Sonarr
-        - name: sonarr-downloads
-          hostPath:
-            path: /share/SheridanFlix/Downloads
-        - name: sonarr-tv
-          hostPath:
-            path: /share/SheridanFlix/TV/Adults
+      - name: "sheridanflix-storage"
+        persistentVolumeClaim:
+          claimName: "sheridanflix-storage"
 
